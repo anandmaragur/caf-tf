@@ -1,4 +1,4 @@
-# caf-tf
+# Cloud Adoption Framework for Azure - Terraform module
 Azure CAF TF
 #Login to Azure using az cli 
 az login --use-device-code -o table
