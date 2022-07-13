@@ -17,7 +17,6 @@ jobs:
     defaults:
       run:
         working-directory: "./terraform"
-
     steps:
     - uses: actions/checkout@v2
 
