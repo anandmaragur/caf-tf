@@ -66,6 +66,11 @@ jobs:
 
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
       with:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'validate'
@@ -77,11 +82,8 @@ jobs:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'plan'
         tf_actions_working_dir: "./terraform"
-
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: "./terraform"
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
