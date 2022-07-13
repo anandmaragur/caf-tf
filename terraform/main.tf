@@ -15,6 +15,9 @@ terraform {
     storage_account_name = "tfstrgact2"
     container_name       = "caf-tf-state"
     key                  = "caf-tf-state.tfstate"
+    subscription_id    = "70d5e864-9f03-4df8-85f7-5f81492a320d"
+    use_oidc           = true
+    tenant_id          = "226acfa5-fb1c-4244-a97b-cc0f92cd518d"
   }
 }
 
