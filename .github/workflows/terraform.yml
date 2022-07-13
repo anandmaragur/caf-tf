@@ -12,9 +12,9 @@ jobs:
     strategy:
       matrix:
         files:
-          -  /github/workspace/terraform/main.tf
-          -  /github/workspace/terraform/caf.auto.tfvars
-          -  /github/workspace/terraform/variables.tf
+          -  ./terraform/main.tf
+          -  ./terraform/caf.auto.tfvars
+          -  ./terraform/variables.tf
     steps:
       - name: Run Snyk to check Kubernetes manifest file for issues
         uses: snyk/actions/iac@master
