@@ -7,6 +7,21 @@ on:
   pull_request:
 
 jobs:
+  security:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        files:
+          - terraform/main.tf
+          - terraform/caf.auto.tfvars
+          - terraform/variables.tf
+    steps:
+      - name: Run Snyk to check Kubernetes manifest file for issues
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          file: ${{ matrix.files }}
   terraform:
     name: 'Terraform'
     env:
