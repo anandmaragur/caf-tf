@@ -2,22 +2,29 @@ name: 'Terraform'
 
 on:
   push:
-    branches:
-    - main
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
   security:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        files:
+          - main.tf
+          - caf.auto.tfvars
+          - variables.tf
     steps:
       - name: Run Snyk to check Kubernetes manifest file for issues
         uses: snyk/actions/iac@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          file: ./terraform/main.tf
+          file:  ${{ matrix.files }}
   terraform:
     name: 'Terraform'
+    needs: security
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -55,14 +62,14 @@ jobs:
       with:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'validate'
-        tf_actions_working_dir: "./terraform"
+        tf_actions_working_dir: "."
         
     - name: 'Terraform Plan'
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: "./terraform"
+        tf_actions_working_dir: "."
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
@@ -70,4 +77,4 @@ jobs:
       with:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: "./terraform"
+        tf_actions_working_dir: "."
